@@ -31,13 +31,35 @@ jobs:
 
       - name: Copy necessary files 📂
         run: |
+          # Create deployment directory
           mkdir -p dist-deploy
+          
+          # Copy built files from dist
           cp -r dist/* dist-deploy/
+          
+          # Copy index.html
           cp index.html dist-deploy/
-          cp -r css dist-deploy/
-          cp -r components dist-deploy/
-          cp -r images dist-deploy/
-          cp .nojekyll dist-deploy/
+          
+          # Copy CSS files if they exist
+          if [ -d "css" ]; then
+            cp -r css dist-deploy/
+          fi
+          
+          # Copy components if they exist
+          if [ -d "components" ]; then
+            cp -r components dist-deploy/
+          fi
+          
+          # Create images directory if it doesn't exist
+          mkdir -p dist-deploy/images
+          
+          # Copy images if they exist
+          if [ -d "images" ]; then
+            cp -r images/* dist-deploy/images/
+          fi
+          
+          # Copy .nojekyll file to prevent GitHub Pages from processing with Jekyll
+          cp .nojekyll dist-deploy/ || touch dist-deploy/.nojekyll
 
       - name: Deploy to GitHub Pages 🚀
         if: github.event_name != 'pull_request'
