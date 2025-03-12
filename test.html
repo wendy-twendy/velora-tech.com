@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velora Tech TypeScript Test</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .test-result {
+            padding: 10px;
+            background-color: #eee;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .success {
+            color: green;
+        }
+        .failure {
+            color: red;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Velora Tech TypeScript Migration Test</h1>
+    
+    <div class="test-section">
+        <div class="test-title">Module Loading Test</div>
+        <div id="module-test-result" class="test-result">Waiting for test to run...</div>
+        <button id="test-modules">Test Modules</button>
+    </div>
+    
+    <div class="test-section">
+        <div class="test-title">Language System Test</div>
+        <div id="language-test-result" class="test-result">Waiting for test to run...</div>
+        <button id="test-language">Test Language System</button>
+        <button id="switch-language">Switch Language</button>
+    </div>
+    
+    <div class="test-section">
+        <div class="test-title">Navigation Test</div>
+        <div id="navigation-test-result" class="test-result">Waiting for test to run...</div>
+        <button id="test-navigation">Test Navigation</button>
+    </div>
+    
+    <div class="test-section">
+        <div class="test-title">Animation Test</div>
+        <div id="animation-test-result" class="test-result">Waiting for test to run...</div>
+        <button id="test-animation">Test Animations</button>
+    </div>
+    
+    <div class="test-section">
+        <div class="test-title">Projects Test</div>
+        <div id="projects-test-result" class="test-result">Waiting for test to run...</div>
+        <button id="test-projects">Test Projects</button>
+    </div>
+    
+    <div class="test-section">
+        <div class="test-title">Testimonials Test</div>
+        <div id="testimonials-test-result" class="test-result">Waiting for test to run...</div>
+        <button id="test-testimonials">Test Testimonials</button>
+    </div>
+    
+    <div class="test-section">
+        <div class="test-title">Contact Form Test</div>
+        <div id="contact-test-result" class="test-result">Waiting for test to run...</div>
+        <button id="test-contact">Test Contact Form</button>
+    </div>
+    
+    <div class="test-section">
+        <div class="test-title">Component Loader Test</div>
+        <div id="component-loader-test-result" class="test-result">Waiting for test to run...</div>
+        <button id="test-component-loader">Test Component Loader</button>
+    </div>
+    
+    <script src="dist/bundle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Test Modules
+            document.getElementById('test-modules').addEventListener('click', () => {
+                const result = document.getElementById('module-test-result');
+                try {
+                    // Check if bundle.js is loaded
+                    if (typeof window.initWebsite === 'function') {
+                        result.textContent = 'Success: Bundle is loaded and initWebsite function is available';
+                        result.classList.add('success');
+                        result.classList.remove('failure');
+                    } else {
+                        result.textContent = 'Failure: Bundle is loaded but initWebsite function is not available';
+                        result.classList.add('failure');
+                        result.classList.remove('success');
+                    }
+                } catch (error) {
+                    result.textContent = `Error: ${error.message}`;
+                    result.classList.add('failure');
+                    result.classList.remove('success');
+                }
+            });
+            
+            // Test Language System
+            document.getElementById('test-language').addEventListener('click', () => {
+                const result = document.getElementById('language-test-result');
+                try {
+                    // Check if language functions are available
+                    if (typeof window.initLanguageSystem === 'function') {
+                        result.textContent = 'Success: Language system functions are available';
+                        result.classList.add('success');
+                        result.classList.remove('failure');
+                    } else {
+                        result.textContent = 'Failure: Language system functions are not available';
+                        result.classList.add('failure');
+                        result.classList.remove('success');
+                    }
+                } catch (error) {
+                    result.textContent = `Error: ${error.message}`;
+                    result.classList.add('failure');
+                    result.classList.remove('success');
+                }
+            });
+            
+            // Test Navigation
+            document.getElementById('test-navigation').addEventListener('click', () => {
+                const result = document.getElementById('navigation-test-result');
+                try {
+                    // Check if navigation functions are available
+                    if (typeof window.initNavigation === 'function') {
+                        result.textContent = 'Success: Navigation functions are available';
+                        result.classList.add('success');
+                        result.classList.remove('failure');
+                    } else {
+                        result.textContent = 'Failure: Navigation functions are not available';
+                        result.classList.add('failure');
+                        result.classList.remove('success');
+                    }
+                } catch (error) {
+                    result.textContent = `Error: ${error.message}`;
+                    result.classList.add('failure');
+                    result.classList.remove('success');
+                }
+            });
+            
+            // Test Animations
+            document.getElementById('test-animation').addEventListener('click', () => {
+                const result = document.getElementById('animation-test-result');
+                try {
+                    // Check if animation functions are available
+                    if (typeof window.initScrollAnimation === 'function' && 
+                        typeof window.initCounters === 'function') {
+                        result.textContent = 'Success: Animation functions are available';
+                        result.classList.add('success');
+                        result.classList.remove('failure');
+                    } else {
+                        result.textContent = 'Failure: Animation functions are not available';
+                        result.classList.add('failure');
+                        result.classList.remove('success');
+                    }
+                } catch (error) {
+                    result.textContent = `Error: ${error.message}`;
+                    result.classList.add('failure');
+                    result.classList.remove('success');
+                }
+            });
+            
+            // Test Projects
+            document.getElementById('test-projects').addEventListener('click', () => {
+                const result = document.getElementById('projects-test-result');
+                try {
+                    // Check if projects functions are available
+                    if (typeof window.initProjectFilters === 'function') {
+                        result.textContent = 'Success: Projects functions are available';
+                        result.classList.add('success');
+                        result.classList.remove('failure');
+                    } else {
+                        result.textContent = 'Failure: Projects functions are not available';
+                        result.classList.add('failure');
+                        result.classList.remove('success');
+                    }
+                } catch (error) {
+                    result.textContent = `Error: ${error.message}`;
+                    result.classList.add('failure');
+                    result.classList.remove('success');
+                }
+            });
+            
+            // Test Testimonials
+            document.getElementById('test-testimonials').addEventListener('click', () => {
+                const result = document.getElementById('testimonials-test-result');
+                try {
+                    // Check if testimonials functions are available
+                    if (typeof window.initTestimonialSlider === 'function') {
+                        result.textContent = 'Success: Testimonials functions are available';
+                        result.classList.add('success');
+                        result.classList.remove('failure');
+                    } else {
+                        result.textContent = 'Failure: Testimonials functions are not available';
+                        result.classList.add('failure');
+                        result.classList.remove('success');
+                    }
+                } catch (error) {
+                    result.textContent = `Error: ${error.message}`;
+                    result.classList.add('failure');
+                    result.classList.remove('success');
+                }
+            });
+            
+            // Test Contact Form
+            document.getElementById('test-contact').addEventListener('click', () => {
+                const result = document.getElementById('contact-test-result');
+                try {
+                    // Check if contact form functions are available
+                    if (typeof window.initContactForm === 'function') {
+                        result.textContent = 'Success: Contact form functions are available';
+                        result.classList.add('success');
+                        result.classList.remove('failure');
+                    } else {
+                        result.textContent = 'Failure: Contact form functions are not available';
+                        result.classList.add('failure');
+                        result.classList.remove('success');
+                    }
+                } catch (error) {
+                    result.textContent = `Error: ${error.message}`;
+                    result.classList.add('failure');
+                    result.classList.remove('success');
+                }
+            });
+            
+            // Test Component Loader
+            document.getElementById('test-component-loader').addEventListener('click', () => {
+                const result = document.getElementById('component-loader-test-result');
+                try {
+                    // Check if component loader functions are available
+                    if (typeof window.loadComponents === 'function') {
+                        result.textContent = 'Success: Component loader functions are available';
+                        result.classList.add('success');
+                        result.classList.remove('failure');
+                    } else {
+                        result.textContent = 'Failure: Component loader functions are not available';
+                        result.classList.add('failure');
+                        result.classList.remove('success');
+                    }
+                } catch (error) {
+                    result.textContent = `Error: ${error.message}`;
+                    result.classList.add('failure');
+                    result.classList.remove('success');
+                }
+            });
+            
+            // Switch Language
+            document.getElementById('switch-language').addEventListener('click', () => {
+                const result = document.getElementById('language-test-result');
+                try {
+                    // Attempt to switch language if the function is available
+                    if (typeof window.switchLanguage === 'function') {
+                        window.switchLanguage();
+                        result.textContent = 'Language switch triggered';
+                        result.classList.add('success');
+                        result.classList.remove('failure');
+                    } else {
+                        result.textContent = 'Failure: switchLanguage function is not available';
+                        result.classList.add('failure');
+                        result.classList.remove('success');
+                    }
+                } catch (error) {
+                    result.textContent = `Error: ${error.message}`;
+                    result.classList.add('failure');
+                    result.classList.remove('success');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

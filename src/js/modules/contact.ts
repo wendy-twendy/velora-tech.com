@@ -3,12 +3,18 @@
  * Handles contact form validation and submission
  */
 
-export function initContactForm() {
-    const contactForm = document.querySelector('.contact-form');
+import { ContactFormData } from '../../types/index';
+
+/**
+ * Initialize contact form
+ * Sets up form validation, submission handling, and UI interactions
+ */
+export function initContactForm(): void {
+    const contactForm = document.querySelector<HTMLFormElement>('.contact-form');
     
     if (!contactForm) return;
     
-    const formInputs = contactForm.querySelectorAll('input, textarea, select');
+    const formInputs = contactForm.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>('input, textarea, select');
     let formSubmitAttempted = false;
     
     // Add floating label effect
@@ -34,12 +40,12 @@ export function initContactForm() {
         
         // Handle focus
         input.addEventListener('focus', () => {
-            input.parentElement.classList.add('focused');
+            input.parentElement?.classList.add('focused');
         });
         
         // Handle blur
         input.addEventListener('blur', () => {
-            input.parentElement.classList.remove('focused');
+            input.parentElement?.classList.remove('focused');
             
             // Only validate on blur if form submission has been attempted
             if (formSubmitAttempted) {
@@ -49,7 +55,7 @@ export function initContactForm() {
     });
     
     // Form submission
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', (e: Event) => {
         e.preventDefault();
         
         // Set flag to indicate form submission has been attempted
@@ -66,8 +72,10 @@ export function initContactForm() {
         
         if (isValid) {
             // Show loading state
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
+            const submitBtn = contactForm.querySelector<HTMLButtonElement>('button[type="submit"]');
+            if (!submitBtn) return;
+            
+            const originalText = submitBtn.textContent || '';
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
             
@@ -77,7 +85,7 @@ export function initContactForm() {
                 contactForm.reset();
                 formInputs.forEach(input => {
                     input.classList.remove('has-value');
-                    input.parentElement.classList.remove('error');
+                    input.parentElement?.classList.remove('error');
                 });
                 
                 // Reset form submission flag
@@ -101,15 +109,19 @@ export function initContactForm() {
         }
     });
     
-    // Validate input function
-    function validateInput(input) {
+    /**
+     * Validate a form input element
+     * @param input - The input element to validate
+     * @returns boolean indicating if the input is valid
+     */
+    function validateInput(input: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement): boolean {
         const value = input.value.trim();
         const type = input.type;
         const name = input.name;
         let isValid = true;
         
         // Remove previous error message
-        const errorElement = input.parentElement.querySelector('.error-message');
+        const errorElement = input.parentElement?.querySelector('.error-message');
         if (errorElement) {
             errorElement.remove();
         }
@@ -134,30 +146,42 @@ export function initContactForm() {
         
         // Add or remove error class
         if (isValid) {
-            input.parentElement.classList.remove('error');
+            input.parentElement?.classList.remove('error');
         } else {
-            input.parentElement.classList.add('error');
+            input.parentElement?.classList.add('error');
         }
         
         return isValid;
     }
     
-    // Show error message
-    function showError(input, message) {
+    /**
+     * Show error message for an input
+     * @param input - The input element with an error
+     * @param message - The error message to display
+     */
+    function showError(input: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, message: string): void {
         const errorElement = document.createElement('div');
         errorElement.classList.add('error-message');
         errorElement.textContent = message;
-        input.parentElement.appendChild(errorElement);
+        input.parentElement?.appendChild(errorElement);
     }
     
-    // Email validation
-    function isValidEmail(email) {
+    /**
+     * Validate email format
+     * @param email - The email to validate
+     * @returns boolean indicating if the email is valid
+     */
+    function isValidEmail(email: string): boolean {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
     
-    // Phone validation
-    function isValidPhone(phone) {
+    /**
+     * Validate phone number format
+     * @param phone - The phone number to validate
+     * @returns boolean indicating if the phone number is valid
+     */
+    function isValidPhone(phone: string): boolean {
         const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
         return phoneRegex.test(phone);
     }

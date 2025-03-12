@@ -3,11 +3,17 @@
  * Handles testimonial slider functionality
  */
 
-export function initTestimonialSlider() {
-    const slides = document.querySelectorAll('.testimonial-slide');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
+import { Testimonial, ComponentLoadedEventDetail } from '../../types/index';
+
+/**
+ * Initialize testimonial slider
+ * Sets up the testimonial slider with navigation, auto-sliding, and event listeners
+ */
+export function initTestimonialSlider(): void {
+    const slides = document.querySelectorAll<HTMLElement>('.testimonial-slide');
+    const dots = document.querySelectorAll<HTMLElement>('.dot');
+    const prevBtn = document.querySelector<HTMLElement>('.prev-btn');
+    const nextBtn = document.querySelector<HTMLElement>('.next-btn');
     
     if (!slides.length) return;
     
@@ -42,28 +48,31 @@ export function initTestimonialSlider() {
     });
     
     // Auto slide (optional)
-    let slideInterval = setInterval(() => {
+    let slideInterval: number = window.setInterval(() => {
         currentSlide = (currentSlide + 1) % slideCount;
         showSlide(currentSlide);
     }, 5000);
     
     // Pause auto slide on hover
-    const testimonialSlider = document.querySelector('.testimonial-slider');
+    const testimonialSlider = document.querySelector<HTMLElement>('.testimonial-slider');
     if (testimonialSlider) {
         testimonialSlider.addEventListener('mouseenter', () => {
             clearInterval(slideInterval);
         });
         
         testimonialSlider.addEventListener('mouseleave', () => {
-            slideInterval = setInterval(() => {
+            slideInterval = window.setInterval(() => {
                 currentSlide = (currentSlide + 1) % slideCount;
                 showSlide(currentSlide);
             }, 5000);
         });
     }
     
-    // Show slide function
-    function showSlide(index) {
+    /**
+     * Show a specific slide by index
+     * @param index - The index of the slide to show
+     */
+    function showSlide(index: number): void {
         // Hide all slides
         slides.forEach(slide => {
             slide.classList.remove('active');
@@ -93,9 +102,10 @@ document.addEventListener('language:changed', () => {
 });
 
 // Also listen for individual component loads
-document.addEventListener('component:loaded', (event) => {
+document.addEventListener('component:loaded', (event: Event) => {
+    const customEvent = event as CustomEvent<ComponentLoadedEventDetail>;
     // Check if the loaded component is the testimonials component
-    if (event.detail.name === 'testimonials') {
+    if (customEvent.detail.name === 'testimonials') {
         initTestimonialSlider();
     }
 });

@@ -1,0 +1,28 @@
+{
+  "name": "velora-tech-website",
+  "version": "1.0.0",
+  "description": "Velora Tech website with TypeScript",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack --mode development --watch",
+    "type-check": "tsc --noEmit",
+    "test": "webpack --mode development && echo 'Open index.html in browser to test'",
+    "deploy": "git push origin main"
+  },
+  "keywords": [
+    "velora",
+    "tech",
+    "website",
+    "typescript",
+    "bilingual"
+  ],
+  "author": "Velora Tech",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
