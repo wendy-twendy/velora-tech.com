@@ -12,6 +12,7 @@ import { initTestimonialSlider } from './modules/testimonials';
 import { initContactForm } from './modules/contact';
 import { initLanguageSystem } from './modules/language-manager';
 import { loadComponents } from './modules/component-loader';
+import { initSplineScene } from './modules/spline-scene';
 
 /**
  * Initialize all website functionality
@@ -30,6 +31,9 @@ function initWebsite(): void {
         initProjectFilters();
         initTestimonialSlider();
         initContactForm();
+        
+        // Initialize the Spline 3D scene in the hero section
+        initSplineScene('spline-container', 'https://prod.spline.design/6HYSzjF6o5jFsTZY/scene.splinecode');
         
         // Dispatch event that all components are loaded and initialized
         document.dispatchEvent(new CustomEvent('components:all-loaded'));

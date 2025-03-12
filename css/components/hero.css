@@ -42,6 +42,44 @@
     align-items: center;
 }
 
+/* Spline Scene Styles */
+.spline-scene {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.spline-scene canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.spline-scene.loaded {
+    opacity: 1;
+}
+
+.spline-scene:not(.loaded) {
+    opacity: 0;
+}
+
+.spline-scene.error {
+    display: none;
+}
+
+.spline-fallback {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .geometric-shape {
     width: 400px;
     height: 400px;
@@ -202,12 +240,11 @@
         flex-direction: column;
     }
     
-    .hero-image {
-        justify-content: center;
-    }
-    
+    .spline-scene,
+    .spline-fallback,
     .geometric-shape {
         width: 300px;
         height: 300px;
+        margin: 0 auto;
     }
 }

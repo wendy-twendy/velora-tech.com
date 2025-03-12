@@ -12,6 +12,7 @@ import { initTestimonialSlider } from './modules/testimonials';
 import { initContactForm } from './modules/contact';
 import { loadComponents } from './modules/component-loader';
 import { initLanguageSystem } from './modules/language-manager';
+import { initSplineScene } from './modules/spline-scene';
 
 // Check if we're in development mode
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -37,6 +38,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     initProjectFilters();
     initTestimonialSlider();
     initContactForm();
+    
+    // Initialize the Spline 3D scene in the hero section
+    initSplineScene('spline-container', 'https://prod.spline.design/6HYSzjF6o5jFsTZY/scene.splinecode');
     
     // Run tests in development mode
     if (isDevelopment) {
