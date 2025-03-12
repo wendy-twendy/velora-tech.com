@@ -1,0 +1,55 @@
+/**
+ * Language Switcher Component Styles
+ */
+
+.language-switcher {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.language-switcher button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color, #fff);
+    text-transform: uppercase;
+}
+
+.language-switcher button:hover {
+    opacity: 1;
+}
+
+.language-switcher button.active {
+    opacity: 1;
+    font-weight: 700;
+    border-bottom: 2px solid var(--accent-color, #00f0ff);
+}
+
+.language-switcher .divider {
+    width: 1px;
+    height: 16px;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 0 8px;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .language-switcher {
+        margin-left: 0;
+        margin-top: 15px;
+        justify-content: center;
+    }
+    
+    nav .mobile-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+}
