@@ -38,7 +38,7 @@ jobs:
           cp index.html dist-deploy/
           
           # Copy JavaScript bundle
-          cp -r dist/* dist-deploy/
+          cp bundle.js dist-deploy/
           
           # Copy CSS directories if they exist
           if [ -d "css" ]; then
