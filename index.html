@@ -1,170 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Velora Tech | Coming Soon</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #0f0f2d;
-      color: #fff;
-      overflow: hidden;
-      height: 100vh;
-    }
-
-    .container {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 0 20px;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      color: #00ffd5;
-      text-shadow: 0 0 10px rgba(0,255,213,0.3);
-    }
-
-    .typewriter {
-      font-size: 1.5rem;
-      height: 2rem;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid #00ffd5;
-      margin: 0 auto 20px;
-      width: 22ch;
-      animation: typing 3s steps(22) infinite, blink 0.75s step-end infinite;
-    }
-
-    @keyframes typing {
-      0% { width: 0ch; }
-      50% { width: 22ch; }
-      100% { width: 0ch; }
-    }
-
-    @keyframes blink {
-      0%, 100% { border-color: transparent; }
-      50% { border-color: #00ffd5; }
-    }
-
-    button {
-      padding: 15px 30px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 30px;
-      background: #00ffd5;
-      color: #0f0f2d;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-
-    button:hover {
-      transform: scale(1.1);
-    }
-
-    .modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: #1a1a3c;
-      padding: 30px;
-      border-radius: 10px;
-      color: white;
-      box-shadow: 0 0 20px rgba(0,255,213,0.2);
-      z-index: 5;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-
-    .modal.active {
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    .modal button {
-      background: #ff3c8c;
-      color: white;
-      margin-top: 20px;
-    }
-
-    /* Animated background shapes */
-    .shapes {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .shapes span {
-      position: absolute;
-      display: block;
-      width: 20px;
-      height: 20px;
-      background: rgba(0, 255, 213, 0.2);
-      animation: float 10s infinite ease-in-out;
-      border-radius: 50%;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) scale(0.5);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) scale(1.2);
-        opacity: 0;
-      }
-    }
-
-    /* Random position and delay for floating dots */
-    .shapes span:nth-child(1) { left: 10%; animation-delay: 0s; }
-    .shapes span:nth-child(2) { left: 30%; animation-delay: 2s; }
-    .shapes span:nth-child(3) { left: 50%; animation-delay: 4s; }
-    .shapes span:nth-child(4) { left: 70%; animation-delay: 1s; }
-    .shapes span:nth-child(5) { left: 90%; animation-delay: 3s; }
-
-    @media (max-width: 600px) {
-      h1 { font-size: 2rem; }
-      .typewriter { font-size: 1.1rem; width: 100%; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velora Tech | Custom Websites & Apps</title>
+    
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/base/typography.css">
+    <link rel="stylesheet" href="css/base/buttons.css">
+    
+    <!-- Layout CSS -->
+    <link rel="stylesheet" href="css/layout/header.css">
+    <link rel="stylesheet" href="css/layout/footer.css">
+    
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="css/components/hero.css">
+    <link rel="stylesheet" href="css/components/services.css">
+    <link rel="stylesheet" href="css/components/about.css">
+    <link rel="stylesheet" href="css/components/projects.css">
+    <link rel="stylesheet" href="css/components/testimonials.css">
+    <link rel="stylesheet" href="css/components/contact.css">
+    <link rel="stylesheet" href="css/components/language-switcher.css">
+    
+    <!-- Animation CSS -->
+    <link rel="stylesheet" href="css/animations/keyframes.css">
+    <link rel="stylesheet" href="css/animations/effects.css">
+    
+    <!-- Temporary: Keep original CSS until all files are migrated -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles-components.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="cursor-glow"></div>
+    <div class="noise-overlay"></div>
 
-  <div class="shapes">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
+    <!-- Header Component -->
+    <div data-component="header"></div>
 
-  <div class="container">
-    <h1>Velora Tech</h1>
-    <div class="typewriter">Innovating in Velore...</div>
-    <button onclick="openModal()">What is Velora?</button>
-  </div>
+    <main>
+        <!-- Hero Component -->
+        <div data-component="hero"></div>
+        
+        <!-- Services Component -->
+        <div data-component="services"></div>
+        
+        <!-- About Component -->
+        <div data-component="about"></div>
+        
+        <!-- Projects Component -->
+        <div data-component="projects"></div>
+        
+        <!-- Testimonials Component -->
+        <div data-component="testimonials"></div>
+        
+        <!-- Contact Component -->
+        <div data-component="contact"></div>
+    </main>
 
-  <div id="modal" class="modal">
-    <h2>👾 Secret Project!</h2>
-    <p>Velora Tech is cooking up something magical in the tech lab. Stay tuned!</p>
-    <button onclick="closeModal()">Close</button>
-  </div>
+    <!-- Footer Component -->
+    <div data-component="footer"></div>
 
-  <script>
-    function openModal() {
-      document.getElementById('modal').classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('modal').classList.remove('active');
-    }
-  </script>
+    <!-- JavaScript -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
