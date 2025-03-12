@@ -31,21 +31,21 @@ jobs:
 
       - name: Copy necessary files 📂
         run: |
-          # Create deployment directory
+          # Create deployment directory structure
           mkdir -p dist-deploy
           
-          # Copy built files from dist
-          cp -r dist/* dist-deploy/
-          
-          # Copy index.html
+          # Copy the main HTML file
           cp index.html dist-deploy/
           
-          # Copy CSS files if they exist
+          # Copy JavaScript bundle
+          cp -r dist/* dist-deploy/
+          
+          # Copy CSS directories if they exist
           if [ -d "css" ]; then
             cp -r css dist-deploy/
           fi
           
-          # Copy components if they exist
+          # Copy components directory if it exists
           if [ -d "components" ]; then
             cp -r components dist-deploy/
           fi
@@ -55,11 +55,20 @@ jobs:
           
           # Copy images if they exist
           if [ -d "images" ]; then
-            cp -r images/* dist-deploy/images/
+            cp -r images/* dist-deploy/images/ || true
           fi
           
           # Copy .nojekyll file to prevent GitHub Pages from processing with Jekyll
-          cp .nojekyll dist-deploy/ || touch dist-deploy/.nojekyll
+          touch dist-deploy/.nojekyll
+
+      - name: List deployment directory contents
+        run: |
+          echo "Root directory:"
+          ls -la dist-deploy/
+          echo "Component directory (if exists):"
+          ls -la dist-deploy/components/ || echo "Components directory not found"
+          echo "CSS directory (if exists):"
+          ls -la dist-deploy/css/ || echo "CSS directory not found"
 
       - name: Deploy to GitHub Pages 🚀
         if: github.event_name != 'pull_request'
