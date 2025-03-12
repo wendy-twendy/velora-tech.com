@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fun Times Ahead!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+      text-align: center;
+    }
+    
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-30px);}
+      60% {transform: translateY(-15px);}
+    }
+
+    p {
+      font-size: 1.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .fun-button {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 50px;
+      background: #ffffff;
+      color: #ff6f91;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .fun-button:hover {
+      background: #ffdde1;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Welcome to the Fun Zone!</h1>
+    <p>Get ready to enjoy some awesome content and exciting surprises. Stay tuned!</p>
+    <button class="fun-button" onclick="alert('You clicked the fun button!')">Click for Fun!</button>
+  </div>
+</body>
+</html>
