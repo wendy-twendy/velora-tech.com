@@ -118,10 +118,116 @@
     .hero-image {
         width: 100%;
         margin-top: 30px;
+        height: 500px; /* Reduced height for better proportions */
+        min-height: 500px; /* Consistent with height */
     }
     
     .hero-content h1 {
         font-size: 2.5rem;
+    }
+    
+    /* Specific mobile adjustments for Spline container */
+    #spline-scene-container {
+        height: 100% !important;
+        width: 100% !important;
+        overflow: hidden !important;
+    }
+    
+    /* Force canvas to be properly sized and positioned */
+    #spline-scene-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important; /* Changed from cover to contain for mobile */
+        transform-origin: center center !important;
+    }
+}
+
+/* Small mobile devices - wider breakpoint range to reduce sensitivity */
+@media screen and (max-width: 640px) {
+    .hero-image {
+        height: 500px; /* Increased height for better visibility */
+        min-height: 500px;
+        width: 100%; /* Ensure full width */
+        max-width: none; /* Remove any max-width constraints */
+    }
+    
+    /* Improved container styling with transitions */
+    #spline-scene-container {
+        width: 100% !important; /* Force full width */
+        min-width: 280px !important; /* Ensure minimum width */
+        height: 500px !important; /* Increased height */
+        transform-origin: center center !important;
+        overflow: visible !important; /* Allow content to overflow */
+        transition: transform 0.3s ease-out; /* Smooth transition for transform changes */
+    }
+    
+    /* Enhanced canvas styling with better dimensions and transitions */
+    #spline-scene-container canvas,
+    .spline-container canvas,
+    .spline-canvas-fullsize {
+        width: 100% !important; /* Force full width */
+        min-width: 280px !important; /* Ensure minimum width */
+        height: 500px !important; /* Match container height */
+        object-fit: contain !important; /* Use contain to show full robot */
+        transform-origin: center center !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        transition: transform 0.3s ease-out, margin 0.3s ease-out; /* Smooth transitions */
+    }
+    
+    /* Base transform for all mobile devices */
+    #spline-scene-container,
+    #spline-scene-container canvas,
+    .spline-container canvas,
+    .spline-canvas-fullsize {
+        transform: scale(1.0) !important; /* Start with no scaling */
+        margin-top: 0 !important; /* Reset margin */
+    }
+    
+    /* Ensure the canvas is properly centered */
+    canvas {
+        min-height: 500px !important;
+        object-position: center center !important;
+    }
+}
+
+/* Medium-small mobile devices */
+@media screen and (max-width: 480px) {
+    #spline-scene-container,
+    #spline-scene-container canvas,
+    .spline-container canvas,
+    .spline-canvas-fullsize {
+        transform: scale(0.95) !important; /* Slight scale down */
+        margin-top: -10px !important; /* Small vertical adjustment */
+    }
+}
+
+/* Extra small mobile devices - wider breakpoint range */
+@media screen and (max-width: 375px) {
+    .hero-image {
+        height: 450px; /* Adjusted height */
+        min-height: 450px;
+    }
+    
+    /* Adjusted scaling for extra small screens */
+    #spline-scene-container,
+    #spline-scene-container canvas,
+    .spline-container canvas,
+    .spline-canvas-fullsize {
+        transform: scale(0.9) !important; /* Moderate scale down */
+        margin-top: -20px !important; /* Moderate vertical adjustment */
+    }
+}
+
+/* Very small mobile devices */
+@media screen and (max-width: 320px) {
+    #spline-scene-container,
+    #spline-scene-container canvas,
+    .spline-container canvas,
+    .spline-canvas-fullsize {
+        transform: scale(0.85) !important; /* More aggressive scale down */
+        margin-top: -25px !important; /* More aggressive vertical adjustment */
     }
 }
 
@@ -130,8 +236,8 @@
     .hero .container {
         flex-direction: row;
         align-items: center; /* Change from stretch to center */
-        min-height: 450px; /* Set minimum height for desktop */
-        max-height: 500px; /* Limit maximum height */
+        min-height: 600px; /* Increased minimum height for desktop */
+        max-height: 700px; /* Increased maximum height */
     }
 
     /* Hero content takes 40% width */
@@ -151,7 +257,7 @@
         align-items: center;
         justify-content: center;
         overflow: hidden; /* Prevent overflow */
-        height: 450px; /* Fixed height for desktop */
+        height: 600px; /* Increased fixed height for desktop */
     }
     
     /* Make spline container fill available space */
@@ -164,9 +270,9 @@
 /* Ensures the hero-image has appropriate dimensions */
 .hero-image {
     width: 100%;
-    height: auto; /* Use auto height instead of 100% */
-    min-height: 400px; /* Set a minimum height to ensure robot visibility */
-    max-height: 500px; /* Limit maximum height */
+    height: 600px; /* Fixed height instead of auto */
+    min-height: 600px; /* Fixed minimum height to ensure robot visibility */
+    max-height: 700px; /* Increased maximum height */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -179,6 +285,20 @@
     height: 100%;
     position: relative;
     overflow: hidden; /* Prevent overflow */
+    display: block;
+    min-height: 100%;
+}
+
+/* Direct targeting of the canvas element */
+#spline-scene-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    display: block !important;
+    object-fit: contain !important; /* Changed from cover to contain to ensure full robot visibility */
 }
 
 /* Force spline-container to fill its parent */
@@ -189,11 +309,27 @@
 }
 
 /* Ensure the canvas fills its spline-container */
-.spline-container canvas {
+.spline-container canvas,
+.spline-canvas-fullsize {
     width: 100% !important; /* Force 100% width */
     height: 100% !important; /* Force 100% height */
-    display: block;
-    object-fit: cover; /* Cover the container */
+    display: block !important;
+    object-fit: contain !important; /* Changed from cover to contain to ensure full robot visibility */
+    position: absolute !important; /* Position absolutely to fill container */
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+}
+
+/* Target the specific canvas in the spline scene container */
+#spline-scene-container canvas,
+[data-component="spline-scene"] canvas {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    display: block !important;
+    object-fit: contain !important; /* Changed from cover to contain to ensure full robot visibility */
 }
 
 /* Ensure canvas doesn't overflow */

@@ -267,7 +267,7 @@ header.scrolled .logo img {
     align-items: center;
     position: relative;
     overflow: hidden;
-    padding: 120px 0 60px;
+    padding: 120px 0 0px;
     background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
 }
 

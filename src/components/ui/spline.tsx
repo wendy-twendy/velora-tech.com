@@ -1,68 +1,28 @@
 'use client'
 
 import React, { useState, useEffect, useRef, Suspense } from 'react';
-
-// Load the Spline module dynamically to avoid SSR issues
-const loadSplineModule = () => {
-  console.log('[SplineComponent] Starting to load @splinetool/react-spline module...');
-  return import('@splinetool/react-spline')
-    .then(module => {
-      console.log('[SplineComponent] @splinetool/react-spline module loaded successfully:', module);
-      return module; // Return the entire module which includes default export
-    })
-    .catch(error => {
-      console.error('[SplineComponent] Failed to load @splinetool/react-spline module:', error);
-      throw error;
-    });
-};
+import { SplineSceneProps } from './spline/types';
+import { 
+  loadSplineModule, 
+  debounce, 
+  checkWebGLSupport, 
+  isWindowAvailable,
+  initializeDebugObject
+} from './spline/utils';
+import { 
+  applyScreenSizeAdjustments
+} from './spline/screen-adjustments';
 
 // Create a lazy-loaded Spline component
 const LazySpline = React.lazy(() => loadSplineModule());
 
-// Check if window is available and WebGL is supported
-const isWindowAvailable = typeof window !== 'undefined';
-
-function checkWebGLSupport() {
-  if (!isWindowAvailable) return false;
-  
-  try {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    const isSupported = !!gl;
-    
-    if (isSupported && gl) {
-      const webgl = gl as WebGLRenderingContext;
-      console.log('[SplineComponent] WebGL supported:', 
-        webgl.getParameter(webgl.VERSION), 
-        'Renderer:', 
-        webgl.getParameter(webgl.RENDERER)
-      );
-    } else {
-      console.error('[SplineComponent] WebGL not supported in this browser');
-    }
-    
-    return isSupported;
-  } catch (e) {
-    console.error('[SplineComponent] Error checking WebGL support:', e);
-    return false;
-  }
-}
-
-interface SplineSceneProps {
-  scene: string;
-  className?: string;
-  width?: string | number;
-  height?: string | number;
-  scale?: number;
-  onLoad?: (spline: any) => void;
-}
-
-export function SplineScene({ 
-  scene, 
-  className = '', 
-  width = '100%', 
+export function SplineScene({
+  scene,
+  className = '',
+  width = '100%',
   height = '100%',
-  scale = 1
+  scale = 1,
+  onLoad
 }: SplineSceneProps) {
   const [domReady, setDomReady] = useState(false);
   const [webGLSupported] = useState(() => checkWebGLSupport());
@@ -78,27 +38,7 @@ export function SplineScene({
     console.log('[SplineComponent] Window dimensions:', window.innerWidth, 'x', window.innerHeight);
     
     // Create a global debug object
-    if (isWindowAvailable) {
-      (window as any).__SPLINE_DEBUG = {
-        webGLSupported,
-        scene,
-        domReady: false,
-        loaded: false,
-        errors: [],
-        addError: (err: any) => {
-          (window as any).__SPLINE_DEBUG.errors.push(err);
-          console.error('[SplineComponent] Error added to debug:', err);
-        },
-        setLoaded: (loaded: boolean) => {
-          (window as any).__SPLINE_DEBUG.loaded = loaded;
-          console.log('[SplineComponent] Debug loaded state:', loaded);
-        },
-        setDomReady: (ready: boolean) => {
-          (window as any).__SPLINE_DEBUG.domReady = ready;
-          console.log('[SplineComponent] Debug DOM ready state:', ready);
-        }
-      };
-    }
+    initializeDebugObject(webGLSupported, scene);
     
     return () => {
       // Cleanup
@@ -188,6 +128,68 @@ export function SplineScene({
     };
   }, [domReady, webGLSupported, loading, retryCount]);
   
+  // Function to handle Spline errors - correctly typed for React events
+  const handleSplineError = (event: React.SyntheticEvent) => {
+    console.error('[SplineComponent] Error in Spline component:', event);
+    // Try to extract more useful information
+    const errorMessage = event && (event as any).message ? (event as any).message : 'Unknown error';
+    setError(`Spline error: ${errorMessage}`);
+    setLoading(false);
+    
+    if (isWindowAvailable) {
+      (window as any).__SPLINE_DEBUG?.addError({
+        event,
+        message: errorMessage,
+        time: new Date().toISOString()
+      });
+    }
+  };
+  
+  // Function to handle Spline load events with improved mobile handling
+  const handleSplineLoad = (spline: any) => {
+    console.log('[SplineComponent] Spline scene loaded successfully!');
+    setLoading(false);
+    if (isWindowAvailable) {
+      (window as any).__SPLINE_DEBUG?.setLoaded(true);
+    }
+    
+    // Verify that the canvas was created and apply styles directly
+    if (containerRef.current) {
+      const canvas = containerRef.current.querySelector('canvas');
+      console.log('[SplineComponent] Canvas element after load:', canvas);
+      if (!canvas) {
+        console.warn('[SplineComponent] Canvas not found after successful load event');
+      } else {
+        // Add a class to the canvas for styling
+        canvas.classList.add('spline-canvas-fullsize');
+        
+        // Get the viewport width for responsive adjustments
+        const viewportWidth = window.innerWidth;
+        
+        // Apply screen-size specific adjustments using a more granular approach
+        applyScreenSizeAdjustments(spline, canvas, viewportWidth);
+        
+        // Pass the loaded spline instance to the onLoad prop if provided
+        if (onLoad) {
+          onLoad(spline);
+        }
+        
+        // Set up a debounced resize handler to stabilize responsive behavior
+        const handleResize = debounce(() => {
+          const currentWidth = window.innerWidth;
+          console.log('[SplineComponent] Debounced resize event, width:', currentWidth);
+          applyScreenSizeAdjustments(spline, canvas, currentWidth);
+        }, 150); // 150ms debounce time
+        
+        // Add the debounced resize listener
+        window.addEventListener('resize', handleResize);
+        
+        // Store the handler reference for cleanup
+        (canvas as any)._resizeHandler = handleResize;
+      }
+    }
+  };
+  
   // Early return if no WebGL
   if (!webGLSupported) {
     return (
@@ -233,41 +235,6 @@ export function SplineScene({
     );
   }
   
-  // Function to handle Spline errors - correctly typed for React events
-  const handleSplineError = (event: React.SyntheticEvent) => {
-    console.error('[SplineComponent] Error in Spline component:', event);
-    // Try to extract more useful information
-    const errorMessage = event && (event as any).message ? (event as any).message : 'Unknown error';
-    setError(`Spline error: ${errorMessage}`);
-    setLoading(false);
-    
-    if (isWindowAvailable) {
-      (window as any).__SPLINE_DEBUG?.addError({
-        event,
-        message: errorMessage,
-        time: new Date().toISOString()
-      });
-    }
-  };
-  
-  // Function to handle Spline load events
-  const handleSplineLoad = () => {
-    console.log('[SplineComponent] Spline scene loaded successfully!');
-    setLoading(false);
-    if (isWindowAvailable) {
-      (window as any).__SPLINE_DEBUG?.setLoaded(true);
-    }
-    
-    // Verify that the canvas was created
-    if (containerRef.current) {
-      const canvas = containerRef.current.querySelector('canvas');
-      console.log('[SplineComponent] Canvas element after load:', canvas);
-      if (!canvas) {
-        console.warn('[SplineComponent] Canvas not found after successful load event');
-      }
-    }
-  };
-  
   // Once DOM is ready, try to load the Spline component
   return (
     <div
@@ -279,7 +246,9 @@ export function SplineScene({
         position: 'relative',
         transform: `scale(${scale})`,
         transformOrigin: 'center center',
-        overflow: 'hidden' // Add overflow hidden to prevent content from spilling out
+        overflow: 'hidden', // Add overflow hidden to prevent content from spilling out
+        display: 'block', // Ensure block display
+        minHeight: '100%' // Ensure minimum height
       }}
       data-retry-count={retryCount}
     >
@@ -342,11 +311,18 @@ export function SplineScene({
             onLoad={handleSplineLoad}
             onError={handleSplineError}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover' // Change from 'contain' to 'cover' to fill the container
+              width: '100% !important',
+              height: '100% !important',
+              objectFit: 'contain', // Change from 'cover' to 'contain' to ensure full robot visibility
+              display: 'block', // Ensure block display
+              position: 'absolute', // Position absolutely to fill container
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0
             }}
             renderOnDemand={false}
+            className="spline-canvas-fullsize" // Add class for styling
           />
         )}
       </Suspense>

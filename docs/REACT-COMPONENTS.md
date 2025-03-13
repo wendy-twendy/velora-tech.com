@@ -17,19 +17,42 @@ The React component integration uses a bridge pattern to seamlessly incorporate 
 
 The website features a 3D visualization using the Spline tool, which is implemented as a React component:
 
-### Components
+### Components Structure
 
-1. **SplineSceneBasic**: The main container component that handles loading states, error handling, WebGL support detection, and responsive sizing.
-2. **SplineScene**: A wrapper around the Spline React component that manages the loading of the 3D scene and handles canvas rendering.
+The Spline integration has been refactored into a modular structure with clear separation of concerns:
+
+1. **Main Components**:
+   - `SplineSceneBasic` (`src/components/spline-scene-basic.tsx`): The main container component that handles rendering states and coordinates the 3D scene.
+   - `SplineScene` (`src/components/ui/spline.tsx`): A wrapper around the Spline React component that manages the loading of the 3D scene.
+
+2. **Utility Modules**:
+   - `scene-effects.ts`: Manages React effects and state for the SplineSceneBasic component.
+   - `scene-adjustments.ts`: Contains utilities for adjusting the 3D scene based on viewport size.
+   - `spline/types.ts`: Type definitions for Spline components.
+   - `spline/utils.ts`: General utility functions for Spline components.
+   - `spline/screen-adjustments.ts`: Functions for responsive adjustments based on screen size.
 
 ### Implementation Details
 
-- The Spline scene is lazy-loaded to improve initial page load performance.
-- WebGL support is checked before attempting to load the 3D scene to prevent errors on unsupported browsers.
-- Comprehensive error handling provides user-friendly fallbacks when the 3D scene cannot be loaded.
-- Debug information is available through the global `__reactComponentBridgeDebug` object.
-- The component dynamically adjusts its dimensions to match the hero section layout.
-- Camera and object positioning are adjusted based on viewport size for optimal viewing on different devices.
+- **Modular Architecture**: The implementation follows a modular approach with clear separation of concerns:
+  - Core rendering logic is kept in the main component files
+  - Effects and state management are isolated in dedicated modules
+  - Scene adjustment logic is separated from component rendering
+  - Type definitions are centralized in dedicated type files
+
+- **Loading and Initialization**:
+  - The Spline scene is lazy-loaded to improve initial page load performance
+  - WebGL support is checked before attempting to load the 3D scene
+  - Comprehensive error handling provides user-friendly fallbacks
+
+- **Debugging**:
+  - Debug information is available through the global `__SPLINE_DEBUG` object
+  - Console logs are prefixed with component names for easier filtering
+
+- **Responsive Design**:
+  - The component dynamically adjusts its dimensions to match the hero section layout
+  - Camera and object positioning are adjusted based on viewport size
+  - Screen-specific adjustments are applied through dedicated utility functions
 
 ### Responsive Behavior
 
@@ -38,7 +61,7 @@ The Spline scene implements responsive behavior to ensure proper display across 
 1. **Desktop View (≥992px)**:
    - The hero section uses a side-by-side layout with 40% width for content and 60% width for the Spline scene
    - The robot is positioned to be fully visible with proper camera distance
-   - Fixed height (450px) ensures consistent appearance
+   - Fixed height (600px) ensures consistent appearance
 
 2. **Tablet View (≥640px and <992px)**:
    - Adjusted camera position to frame the robot properly on medium-sized screens
@@ -46,8 +69,9 @@ The Spline scene implements responsive behavior to ensure proper display across 
 
 3. **Mobile View (<640px)**:
    - Stacked layout with the Spline scene below the hero content
-   - Full width display with adjusted height
+   - Full width display with adjusted height (500px)
    - Camera pulled back further to show the complete robot
+   - Additional FOV adjustments to ensure visibility
 
 ### Sizing and Positioning
 
@@ -87,6 +111,7 @@ The Spline scene implements several techniques to ensure proper sizing and posit
    - Ensure proper type assertions are used for WebGL context properties
    - Use appropriate event types for custom events
    - Provide proper type definitions for component props
+   - Check that RefObject types match their actual usage
 
 4. **Spline Scene Overflow Issues**:
    - Check container dimensions in the browser inspector
@@ -104,26 +129,30 @@ The Spline scene implements several techniques to ensure proper sizing and posit
 
 ### Debugging Tools
 
-- The React Component Bridge exposes a debug object (`window.__reactComponentBridgeDebug`) that tracks:
+- The Spline component exposes a debug object (`window.__SPLINE_DEBUG`) that tracks:
+  - WebGL support status
+  - DOM readiness
   - Spline loading status
   - Spline errors
-  - Mounted components
 
-- Console logs are prefixed with namespaces (e.g., `[ReactComponentBridge]`, `[SplineScene]`) for easier filtering and identification.
+- Console logs are prefixed with namespaces (e.g., `[SplineComponent]`, `[SplineSceneBasic]`) for easier filtering and identification.
 
 ## Best Practices
 
-1. **Component Registration**:
-   - Register all React components in the ReactComponentBridge.componentMap
-   - Use consistent naming between component files and data-component attributes
+1. **Component Organization**:
+   - Maintain the modular structure with clear separation of concerns
+   - Keep related functionality in dedicated files
+   - Use consistent naming conventions across files
 
 2. **Error Handling**:
    - Always provide user-friendly fallbacks for failed component loading
    - Log detailed error information to the console for debugging
+   - Implement retry mechanisms for transient failures
 
 3. **Performance Optimization**:
    - Use lazy loading for heavy components like Spline scenes
    - Implement proper cleanup in useEffect hooks to prevent memory leaks
+   - Use debounced event handlers for resize events
 
 4. **Bilingual Support**:
    - Ensure all React components support both English and Albanian languages
