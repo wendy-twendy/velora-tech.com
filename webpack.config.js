@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = (env, argv) => {
   const isDevelopment = argv.mode === 'development';
@@ -21,10 +22,10 @@ module.exports = (env, argv) => {
       extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
-      filename: '[name].bundle.js',
-      chunkFilename: '[id].bundle.js',
-      path: path.resolve(__dirname, './'),
-      publicPath: '/'
+      filename: 'bundle.js',
+      chunkFilename: 'chunks/[name].[contenthash].js', 
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '/dist/' 
     },
     optimization: {
       minimize: !isDevelopment,
@@ -43,36 +44,70 @@ module.exports = (env, argv) => {
         }),
       ],
       splitChunks: {
-        chunks: 'all',
-        maxInitialRequests: Infinity,
+        chunks: 'async', 
         minSize: 20000,
+        maxSize: 100000, 
+        automaticNameDelimiter: '-',
         cacheGroups: {
-          splineVendor: {
-            test: /[\\/]node_modules[\\/]@splinetool[\\/]/,
-            name: 'spline-vendor',
-            priority: 20,
-            reuseExistingChunk: true
+          reactVendors: {
+            test: /[\\/]node_modules[\\/](react|react-dom)/,
+            name: 'react-vendors',
+            chunks: 'async',
+            priority: 20
           },
-          reactVendor: {
-            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-            name: 'react-vendor',
-            priority: 10,
-            reuseExistingChunk: true
-          },
-          vendor: {
+          vendors: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
-            priority: 5,
+            chunks: 'async',
+            priority: 10
+          },
+          default: {
+            minChunks: 1,
+            priority: -20,
             reuseExistingChunk: true
           }
         }
-      }
+      },
+      runtimeChunk: false 
     },
     plugins: [
+      new CleanWebpackPlugin(), 
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(isDevelopment ? 'development' : 'production')
       }),
-      new webpack.ProgressPlugin()
+      new webpack.ProgressPlugin(),
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          context: __dirname
+        }
+      }),
+      new webpack.BannerPlugin({
+        banner: `
+        (function() {
+          window.addEventListener('error', function(event) {
+            if (event.message && (event.message.includes('Loading chunk') || event.message.includes('ChunkLoadError'))) {
+              console.error('Chunk loading error caught by global handler:', event.message);
+              event.preventDefault();
+              return true;
+            }
+          });
+          
+          var originalJsonpFunction = window["webpackJsonp"];
+          if (originalJsonpFunction) {
+            window["webpackJsonp"] = function() {
+              try {
+                return originalJsonpFunction.apply(null, arguments);
+              } catch (e) {
+                console.error("Chunk jsonp error caught:", e);
+                return [];
+              }
+            };
+          }
+        })();
+        `,
+        raw: true,
+        entryOnly: true
+      })
     ],
     devtool: isDevelopment ? 'inline-source-map' : false
   };

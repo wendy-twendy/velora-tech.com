@@ -1,0 +1,77 @@
+{
+  "about": {
+    "title": "Rreth Velora Tech",
+    "subtitle": "Duke udhëhequr të ardhmen e zgjidhjeve dixhitale",
+    "paragraph1": "Në Velora Tech, ne kombinojmë kreativitetin me ekspertizën teknike për të ndërtuar përvoja dixhitale që thyejnë kufijtë. E themeluar me një vizion për të transformuar mënyrën se si bizneset lidhen me audiencat e tyre, ne jemi rritur në një ekip novatorësh të pasionuar të përkushtuar ndaj përsosmërisë.",
+    "paragraph2": "Qasja jonë kombinon dizajnin vizionar me inxhinierinë e fortë për të krijuar zgjidhje që janë jo vetëm vizualisht mahnitëse, por edhe teknikisht superiore.",
+    "stats": {
+      "projects": "Projekte të Përfunduara",
+      "team": "Anëtarë të Ekipit",
+      "satisfaction": "Kënaqësi e Klientit"
+    }
+  },
+  "hero": {
+    "title": "Zgjidhje Dixhitale Inovative",
+    "subtitle": "Ne krijojmë përvoja dixhitale moderne që transformojnë bizneset",
+    "cta": {
+      "primary": "Shërbimet Tona",
+      "secondary": "Na Kontaktoni"
+    },
+    "loading": "Duke ngarkuar Përvojën 3D...",
+    "error": {
+      "title": "Nuk mund të ngarkohet skena 3D",
+      "message": "Ju lutemi kontrolloni lidhjen tuaj ose provoni një shfletues tjetër"
+    },
+    "scroll": "Lëviz poshtë për të eksploruar"
+  },
+  "services": {
+    "title": "Shërbimet Tona",
+    "subtitle": "Zgjidhje gjithëpërfshirëse dixhitale për bizneset moderne",
+    "items": [
+      {
+        "title": "Zhvillim Ueb",
+        "description": "Faqe interneti dhe aplikacione ueb të personalizuara të ndërtuara me teknologji të avancuara"
+      },
+      {
+        "title": "Zhvillim Mobil",
+        "description": "Aplikacione mobile native dhe cross-platform për iOS dhe Android"
+      },
+      {
+        "title": "Dizajn UI/UX",
+        "description": "Dizajn i përqendruar te përdoruesi që krijon përvoja intuitive dhe tërheqëse"
+      },
+      {
+        "title": "Marketing Dixhital",
+        "description": "Zgjidhje strategjike marketingu për të rritur praninë tuaj online"
+      }
+    ]
+  },
+  "header": {
+    "nav": {
+      "home": "Kryefaqja",
+      "about": "Rreth Nesh",
+      "services": "Shërbimet",
+      "projects": "Projektet",
+      "testimonials": "Dëshmitë",
+      "contact": "Kontakt"
+    }
+  },
+  "footer": {
+    "company": "Velora Tech",
+    "copyright": "© 2025 Velora Tech. Të gjitha të drejtat e rezervuara.",
+    "address": "Rruga Teknologjike 123, Tiranë, Shqipëri",
+    "phone": "+355 69 123 4567",
+    "email": "info@veloratech.com",
+    "social": {
+      "follow": "Na Ndiqni",
+      "linkedin": "LinkedIn",
+      "twitter": "Twitter",
+      "instagram": "Instagram"
+    },
+    "links": {
+      "privacy": "Politika e Privatësisë",
+      "terms": "Kushtet e Shërbimit",
+      "sitemap": "Harta e Faqes"
+    }
+  }
+}

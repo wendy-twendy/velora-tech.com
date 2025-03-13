@@ -1,0 +1,77 @@
+{
+  "about": {
+    "title": "About Velora Tech",
+    "subtitle": "Pioneering the future of digital solutions",
+    "paragraph1": "At Velora Tech, we blend creativity with technical expertise to build digital experiences that push boundaries. Founded with a vision to transform how businesses connect with their audiences, we've grown into a team of passionate innovators dedicated to excellence.",
+    "paragraph2": "Our approach combines forward-thinking design with robust engineering to create solutions that are not just visually stunning but also technically superior.",
+    "stats": {
+      "projects": "Projects Completed",
+      "team": "Team Members",
+      "satisfaction": "Client Satisfaction"
+    }
+  },
+  "hero": {
+    "title": "Innovative Digital Solutions",
+    "subtitle": "We create cutting-edge digital experiences that transform businesses",
+    "cta": {
+      "primary": "Our Services",
+      "secondary": "Contact Us"
+    },
+    "loading": "Loading 3D Experience...",
+    "error": {
+      "title": "Unable to load 3D scene",
+      "message": "Please check your connection or try another browser"
+    },
+    "scroll": "Scroll to explore"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive digital solutions for modern businesses",
+    "items": [
+      {
+        "title": "Web Development",
+        "description": "Custom websites and web applications built with cutting-edge technologies"
+      },
+      {
+        "title": "Mobile Development",
+        "description": "Native and cross-platform mobile applications for iOS and Android"
+      },
+      {
+        "title": "UI/UX Design",
+        "description": "User-centered design that creates intuitive and engaging experiences"
+      },
+      {
+        "title": "Digital Marketing",
+        "description": "Strategic marketing solutions to boost your online presence"
+      }
+    ]
+  },
+  "header": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "services": "Services",
+      "projects": "Projects",
+      "testimonials": "Testimonials",
+      "contact": "Contact"
+    }
+  },
+  "footer": {
+    "company": "Velora Tech",
+    "copyright": "© 2025 Velora Tech. All rights reserved.",
+    "address": "123 Tech Avenue, Tirana, Albania",
+    "phone": "+355 69 123 4567",
+    "email": "info@veloratech.com",
+    "social": {
+      "follow": "Follow Us",
+      "linkedin": "LinkedIn",
+      "twitter": "Twitter",
+      "instagram": "Instagram"
+    },
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "sitemap": "Sitemap"
+    }
+  }
+}

@@ -20,6 +20,7 @@
   "author": "Velora Tech",
   "license": "MIT",
   "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
     "terser-webpack-plugin": "^5.3.14",
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
@@ -27,8 +28,6 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "@splinetool/react-spline": "^4.0.0",
-    "@splinetool/runtime": "^1.9.76",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "react": "^19.0.0",

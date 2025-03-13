@@ -1,0 +1,53 @@
+/* Responsive Adjustments for Mobile View */
+
+/* Tablet and smaller devices */
+@media (max-width: 992px) {
+    .hero, .services, .about, .projects, .testimonials, .contact {
+        padding: 70px 0;
+    }
+    
+    .section-header {
+        margin-bottom: 40px;
+    }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+    .hero, .services, .about, .projects, .testimonials, .contact {
+        padding: 50px 0;
+    }
+    
+    .section-header {
+        margin-bottom: 30px;
+    }
+    
+    .section-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    /* Reduce spacing between elements */
+    .about-content, .stats-container, .projects-grid, .testimonial-slider, .contact-container {
+        gap: 20px;
+    }
+    
+    /* Adjust margins for stacked elements */
+    .about-image, .service-card, .project-card, .testimonial-card, .contact-form {
+        margin-bottom: 20px;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .hero, .services, .about, .projects, .testimonials, .contact {
+        padding: 40px 0;
+    }
+    
+    .section-header {
+        margin-bottom: 25px;
+    }
+    
+    /* Further reduce spacing between elements */
+    .about-content, .stats-container, .projects-grid, .testimonial-slider, .contact-container {
+        gap: 15px;
+    }
+}
