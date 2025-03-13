@@ -10,8 +10,27 @@
             </div>
         </div>
         <div class="hero-image">
-            <div id="spline-container" class="spline-scene"></div>
+            <!-- Using direct inline structure instead of component loader for better reliability -->
+            <div id="spline-container" class="spline-scene">
+                <!-- Main canvas container -->
+                <div id="spline-canvas-container" class="spline-canvas"></div>
+                
+                <!-- Loading indicator -->
+                <div class="spline-loading">
+                    <div class="spinner"></div>
+                    <p>Loading 3D Scene...</p>
+                </div>
+                
+                <!-- Error fallback -->
+                <div class="spline-error" style="display: none;">
+                    <div class="fallback-content">
+                        <h3>Interactive 3D Experience</h3>
+                        <p>We're experiencing issues loading the 3D scene. Please try refreshing your browser.</p>
+                    </div>
+                </div>
+            </div>
             <div class="spline-fallback" style="display: none;">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&h=800&q=80" alt="Digital Technology">
                 <div class="geometric-shape"></div>
                 <div class="floating-elements">
                     <span class="floating-element"></span>
@@ -19,14 +38,6 @@
                     <span class="floating-element"></span>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="scroll-indicator">
-        <div class="mouse">
-            <div class="wheel"></div>
-        </div>
-        <div>
-            <span class="scroll-text">Scroll</span>
         </div>
     </div>
 </section>
