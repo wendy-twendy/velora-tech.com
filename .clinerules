@@ -52,6 +52,7 @@
 - /docs/COMPONENT-API.md - Documents the module APIs and integration points, including specific modules and TypeScript interfaces
 - /docs/ARCHITECTURE.md - Provides a high-level overview of the project architecture, technology stack, and technical decisions
 - /docs/DEVELOPMENT-WORKFLOW.md - Outlines the development, testing, and deployment processes for contributors
+- /docs/REACT-COMPONENTS.md - Outlines the Spline React component, an interactive 3D robot on the hero page
 
 ## Key Architectural Concepts
 - Module-based Architecture: The codebase is organized into independent modules that handle specific functionality

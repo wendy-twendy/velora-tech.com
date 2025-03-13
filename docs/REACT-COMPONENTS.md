@@ -19,8 +19,8 @@ The website features a 3D visualization using the Spline tool, which is implemen
 
 ### Components
 
-1. **SplineSceneBasic**: The main container component that handles loading states, error handling, and WebGL support detection.
-2. **SplineScene**: A wrapper around the Spline React component that manages the loading of the 3D scene.
+1. **SplineSceneBasic**: The main container component that handles loading states, error handling, WebGL support detection, and responsive sizing.
+2. **SplineScene**: A wrapper around the Spline React component that manages the loading of the 3D scene and handles canvas rendering.
 
 ### Implementation Details
 
@@ -28,6 +28,45 @@ The website features a 3D visualization using the Spline tool, which is implemen
 - WebGL support is checked before attempting to load the 3D scene to prevent errors on unsupported browsers.
 - Comprehensive error handling provides user-friendly fallbacks when the 3D scene cannot be loaded.
 - Debug information is available through the global `__reactComponentBridgeDebug` object.
+- The component dynamically adjusts its dimensions to match the hero section layout.
+- Camera and object positioning are adjusted based on viewport size for optimal viewing on different devices.
+
+### Responsive Behavior
+
+The Spline scene implements responsive behavior to ensure proper display across different screen sizes:
+
+1. **Desktop View (≥992px)**:
+   - The hero section uses a side-by-side layout with 40% width for content and 60% width for the Spline scene
+   - The robot is positioned to be fully visible with proper camera distance
+   - Fixed height (450px) ensures consistent appearance
+
+2. **Tablet View (≥640px and <992px)**:
+   - Adjusted camera position to frame the robot properly on medium-sized screens
+   - Modified robot positioning for optimal visibility
+
+3. **Mobile View (<640px)**:
+   - Stacked layout with the Spline scene below the hero content
+   - Full width display with adjusted height
+   - Camera pulled back further to show the complete robot
+
+### Sizing and Positioning
+
+The Spline scene implements several techniques to ensure proper sizing and positioning:
+
+1. **Container Sizing**:
+   - The container dimensions are calculated based on the hero section and hero content dimensions
+   - Height is set to match the content area or use fixed heights for consistent appearance
+   - Width is set to 100% of the available space in its container
+
+2. **Object Positioning**:
+   - The robot is positioned using 3D coordinates to ensure it's centered and fully visible
+   - Camera position is adjusted based on screen size to frame the robot properly
+   - Position adjustments are made dynamically when the viewport size changes
+
+3. **Overflow Prevention**:
+   - CSS `overflow: hidden` is applied to containers to prevent content from spilling out
+   - Object scaling is carefully managed to prevent overflow issues
+   - Canvas dimensions are controlled to stay within container boundaries
 
 ## Troubleshooting
 
@@ -48,6 +87,20 @@ The website features a 3D visualization using the Spline tool, which is implemen
    - Ensure proper type assertions are used for WebGL context properties
    - Use appropriate event types for custom events
    - Provide proper type definitions for component props
+
+4. **Spline Scene Overflow Issues**:
+   - Check container dimensions in the browser inspector
+   - Verify that the hero-content and hero-image containers have appropriate sizing
+   - Ensure CSS `overflow: hidden` is applied to the appropriate containers
+   - Check for fixed width/height values that might be causing overflow
+   - Verify that the robot positioning in `adjustSplineScene()` is appropriate for the viewport size
+
+5. **Robot Visibility Issues**:
+   - Adjust the robot's Y position to ensure it's fully visible
+   - Modify camera position to frame the robot properly
+   - Check the container height to ensure it's sufficient to display the full robot
+   - Adjust the camera's Z position to pull back and show more of the robot
+   - Use browser developer tools to inspect the canvas dimensions and container constraints
 
 ### Debugging Tools
 
@@ -76,9 +129,29 @@ The website features a 3D visualization using the Spline tool, which is implemen
    - Ensure all React components support both English and Albanian languages
    - Use the language context or getCurrentLanguage() function to access the current language
 
+5. **Responsive 3D Integration**:
+   - Use relative units (%, vh, vw) instead of fixed pixel values where possible
+   - Implement viewport-specific adjustments for different screen sizes
+   - Apply `overflow: hidden` to container elements to prevent content spillover
+   - Use media queries to adjust layout and sizing based on viewport dimensions
+   - Test on various screen sizes to ensure proper display and functionality
+
+6. **3D Object Positioning**:
+   - Position 3D objects dynamically based on container dimensions
+   - Adjust camera distance and angle for optimal viewing on different devices
+   - Use console logging to debug positioning issues with exact coordinates
+   - Implement resize event listeners to adjust positioning when viewport changes
+   - Consider using fixed heights for consistent appearance on desktop views
+
 ## Future Improvements
 
 - Implement a more robust component registration system
 - Add unit tests for React components
 - Improve error recovery mechanisms
 - Enhance the debugging tools with more detailed information
+- Implement a more sophisticated responsive sizing system for 3D scenes
+- Create a dedicated configuration system for Spline scene parameters
+- Add performance optimizations for mobile devices with limited GPU capabilities
+- Develop a fallback system that shows static images when WebGL is not supported
+- Implement progressive loading for 3D assets to improve initial load time
+- Create a centralized positioning system for 3D objects across different viewport sizes

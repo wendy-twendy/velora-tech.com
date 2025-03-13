@@ -51,9 +51,19 @@ function checkWebGLSupport() {
 interface SplineSceneProps {
   scene: string;
   className?: string;
+  width?: string | number;
+  height?: string | number;
+  scale?: number;
+  onLoad?: (spline: any) => void;
 }
 
-export function SplineScene({ scene, className = '' }: SplineSceneProps) {
+export function SplineScene({ 
+  scene, 
+  className = '', 
+  width = '100%', 
+  height = '100%',
+  scale = 1
+}: SplineSceneProps) {
   const [domReady, setDomReady] = useState(false);
   const [webGLSupported] = useState(() => checkWebGLSupport());
   const [retryCount, setRetryCount] = useState(0);
@@ -260,10 +270,17 @@ export function SplineScene({ scene, className = '' }: SplineSceneProps) {
   
   // Once DOM is ready, try to load the Spline component
   return (
-    <div 
-      ref={containerRef} 
-      className={`spline-container ${className}`} 
-      style={{ width: '100%', height: '100%', position: 'relative' }}
+    <div
+      ref={containerRef}
+      className={`spline-container ${className}`}
+      style={{
+        width: width,
+        height: height,
+        position: 'relative',
+        transform: `scale(${scale})`,
+        transformOrigin: 'center center',
+        overflow: 'hidden' // Add overflow hidden to prevent content from spilling out
+      }}
       data-retry-count={retryCount}
     >
       <Suspense fallback={
@@ -324,7 +341,12 @@ export function SplineScene({ scene, className = '' }: SplineSceneProps) {
             scene={scene}
             onLoad={handleSplineLoad}
             onError={handleSplineError}
-            style={{ width: '100%', height: '100%' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover' // Change from 'contain' to 'cover' to fill the container
+            }}
+            renderOnDemand={false}
           />
         )}
       </Suspense>

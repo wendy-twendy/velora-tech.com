@@ -1,10 +1,10 @@
 /* Hero Component Styles */
 .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: auto; /* Remove 100vh to prevent excessive height */
     display: flex;
     align-items: center;
-    padding: 100px 0;
+    padding: 60px 0; /* Reduce padding to decrease overall height */
     overflow: hidden;
     background-color: black;
 }
@@ -20,6 +20,7 @@
     flex: 1;
     max-width: 600px;
     z-index: 2;
+    max-height: fit-content; /* Prevent excessive height */
 }
 
 .hero-content h1 {
@@ -116,11 +117,87 @@
     
     .hero-image {
         width: 100%;
-        max-width: 600px;
         margin-top: 30px;
     }
     
     .hero-content h1 {
         font-size: 2.5rem;
     }
+}
+
+@media screen and (min-width: 992px) {
+    /* Ensure container children have appropriate dimensions */
+    .hero .container {
+        flex-direction: row;
+        align-items: center; /* Change from stretch to center */
+        min-height: 450px; /* Set minimum height for desktop */
+        max-height: 500px; /* Limit maximum height */
+    }
+
+    /* Hero content takes 40% width */
+    .hero-content {
+        flex: 0 0 40% !important;
+        width: 40% !important;
+        padding-right: 2rem;
+        height: auto; /* Use auto height */
+    }
+    
+    /* Hero image takes 60% width and centers its content */
+    .hero-image {
+        flex: 0 0 60% !important; /* Fixed 60% width */
+        width: 60% !important; /* Fixed 60% width */
+        padding-left: 0; /* Remove padding since we have gap */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden; /* Prevent overflow */
+        height: 450px; /* Fixed height for desktop */
+    }
+    
+    /* Make spline container fill available space */
+    #spline-scene-container {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+/* Ensures the hero-image has appropriate dimensions */
+.hero-image {
+    width: 100%;
+    height: auto; /* Use auto height instead of 100% */
+    min-height: 400px; /* Set a minimum height to ensure robot visibility */
+    max-height: 500px; /* Limit maximum height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* Make the scene container fill the hero-image container */
+#spline-scene-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* Force spline-container to fill its parent */
+.spline-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* Ensure the canvas fills its spline-container */
+.spline-container canvas {
+    width: 100% !important; /* Force 100% width */
+    height: 100% !important; /* Force 100% height */
+    display: block;
+    object-fit: cover; /* Cover the container */
+}
+
+/* Ensure canvas doesn't overflow */
+canvas {
+    max-width: 100%;
+    max-height: 100%;
 }
