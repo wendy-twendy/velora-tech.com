@@ -1,0 +1,121 @@
+# Velora Tech Website Context Rules
+
+## Project Overview
+- The Velora Tech website is a modern, bilingual corporate website built using TypeScript
+- The website supports both English and Albanian languages with automatic detection and manual switching
+- The project uses a modular architecture with a component-based structure for UI elements
+
+## Technology Stack
+- Languages: TypeScript, HTML5, CSS3
+- Module Bundler: Webpack
+- Package Manager: npm
+- Type Checking: TypeScript compiler
+- UI Framework: Custom component system (no external UI framework)
+- Internationalization: Custom i18n solution with JSON-based translations
+- Deployment: GitHub Pages
+
+## Project Structure
+- /components/ - HTML components and templates
+- /css/ - CSS stylesheets
+- /dist/ - Compiled output
+- /src/ - Source code
+  - /js/ - TypeScript source
+    - /modules/ - Core modules
+    - app.ts - Application entry point
+    - main.ts - Main initialization
+  - /locales/ - Translation files (en.json, al.json)
+  - /types/ - TypeScript type definitions
+- /docs/ - Documentation files
+- index.html - Main HTML entry point
+- tsconfig.json - TypeScript configuration
+- webpack.config.js - Webpack configuration
+
+## Core Modules
+- navigation.ts - Handles website navigation and menu functionality
+- cursor.ts - Implements custom cursor effects
+- animations.ts - Manages scroll-based animations and counters
+- projects.ts - Handles project filtering and display
+- testimonials.ts - Manages the testimonial slider
+- contact.ts - Handles the contact form validation and submission
+- component-loader.ts - Dynamically loads HTML components
+- language-manager.ts - Manages language detection and switching
+- translation-service.ts - Handles loading and applying translations
+
+## Bilingual Support
+- The website automatically detects the user's location and sets Albanian as the default language for users in Albania, otherwise English is used
+- Users can manually switch between languages using the language switcher in the header
+- All website components have been translated and organized in language-specific directories
+- Translations are stored in JSON files (en.json and al.json) and applied using data-i18n attributes
+
+## Documentation Files
+- /docs/COMPONENT-SYSTEM.md - Documents the component system, including component loading, language management, translation API, and event system
+- /docs/COMPONENT-API.md - Documents the module APIs and integration points, including specific modules and TypeScript interfaces
+- /docs/ARCHITECTURE.md - Provides a high-level overview of the project architecture, technology stack, and technical decisions
+- /docs/DEVELOPMENT-WORKFLOW.md - Outlines the development, testing, and deployment processes for contributors
+
+## Key Architectural Concepts
+- Module-based Architecture: The codebase is organized into independent modules that handle specific functionality
+- Component System: UI elements are defined as reusable HTML components that can be loaded dynamically
+- Language Management: The website supports both English and Albanian languages with automatic detection and manual switching
+- Event-driven Communication: Modules communicate through custom events to maintain loose coupling
+- Progressive Enhancement: Core functionality works without JavaScript, with enhanced features added when JS is available
+
+## Development Guidelines
+- Use TypeScript for all new code with appropriate type annotations
+- Follow the existing module pattern for new modules
+- Add data-i18n attributes for translatable content
+- Use data-component attributes for component placeholders
+- Ensure all new features maintain bilingual support
+- Test changes in both languages before committing
+## TypeScript Best Practices
+- Use explicit type annotations for function parameters and return types
+- Leverage type inference when appropriate for cleaner code
+- Prefer interfaces for object shapes and type aliases for complex types
+- Use generics for reusable components and functions
+- Leverage utility types for common type transformations
+- Implement type guards for runtime type checking
+- Use enums for related constants
+- Create custom error types for better error handling
+- Modularize code with barrel files for simplified imports
+- Use ESLint with TypeScript and Prettier for consistent formatting
+- Add JSDoc comments for better documentation
+- Implement unit testing with type-safe tests
+- Use lazy loading and code splitting for performance optimization
+
+## Component System Best Practices
+- Create small, focused components with a single responsibility
+- Maintain consistent naming conventions for components
+- Use composition over inheritance for component relationships
+- Implement proper encapsulation to hide implementation details
+- Design components to be stateless when possible
+- Ensure components are reusable across different contexts
+- Document component APIs and usage patterns
+- Implement proper error handling within components
+- Use event delegation for efficient event handling
+- Optimize component rendering performance
+
+## Development Guidelines
+- Use TypeScript for all new code with appropriate type annotations
+- Follow the existing module pattern for new modules
+- Add data-i18n attributes for translatable content
+- Use data-component attributes for component placeholders
+- Ensure all new features maintain bilingual support
+- Test changes in both languages before committing
+- Use the event system for communication between modules
+- Follow the established directory structure for new files
+- Document new functionality in the appropriate documentation files
+
+## Common Patterns
+- Component Loading: Components are loaded using data-component attributes
+- Translation: Text is translated using data-i18n attributes
+- Event Handling: Custom events are used for communication between modules
+- Module Initialization: Modules are initialized in app.ts when the DOM is loaded
+- Language Switching: Language changes trigger reloading of components and translations
+
+## Integration Points
+- New components can be added to the components directory
+- New modules can be added to the src/js/modules directory
+- New translations can be added to the locale files
+- Custom events can be dispatched and listened for
+- The component loader can be extended for custom loading logic
+- The language manager can be extended for additional languages

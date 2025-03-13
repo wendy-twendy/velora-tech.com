@@ -16,14 +16,33 @@ module.exports = (env, argv) => {
           use: 'ts-loader',
           exclude: /node_modules/,
         },
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader', 'postcss-loader'],
+        },
+        // Add specific handling for Spline files
+        {
+          test: /\.(glb|gltf)$/,
+          type: 'asset/resource',
+        },
       ],
     },
     resolve: {
-      extensions: ['.tsx', '.ts', '.js'],
+      extensions: ['.tsx', '.ts', '.js', '.jsx'],
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
+      fallback: {
+        // Add fallbacks for Node.js core modules that Spline might try to use
+        "fs": false,
+        "path": false,
+        "crypto": false,
+        "stream": false,
+        "buffer": false,
+      }
     },
     output: {
       filename: 'bundle.js',
-      chunkFilename: 'chunks/[name].[contenthash].js', 
       path: path.resolve(__dirname, 'dist'),
       publicPath: '/dist/' 
     },
@@ -43,37 +62,14 @@ module.exports = (env, argv) => {
           extractComments: false,
         }),
       ],
-      splitChunks: {
-        chunks: 'async', 
-        minSize: 20000,
-        maxSize: 100000, 
-        automaticNameDelimiter: '-',
-        cacheGroups: {
-          reactVendors: {
-            test: /[\\/]node_modules[\\/](react|react-dom)/,
-            name: 'react-vendors',
-            chunks: 'async',
-            priority: 20
-          },
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'async',
-            priority: 10
-          },
-          default: {
-            minChunks: 1,
-            priority: -20,
-            reuseExistingChunk: true
-          }
-        }
-      },
-      runtimeChunk: false 
     },
     plugins: [
       new CleanWebpackPlugin(), 
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(isDevelopment ? 'development' : 'production')
+        'process.env.NODE_ENV': JSON.stringify(isDevelopment ? 'development' : 'production'),
+        // Add this to help with Spline's environment detection
+        'process.env.IS_SPLINE': 'true',
+        'global': 'window',
       }),
       new webpack.ProgressPlugin(),
       new webpack.LoaderOptionsPlugin({
@@ -81,33 +77,11 @@ module.exports = (env, argv) => {
           context: __dirname
         }
       }),
-      new webpack.BannerPlugin({
-        banner: `
-        (function() {
-          window.addEventListener('error', function(event) {
-            if (event.message && (event.message.includes('Loading chunk') || event.message.includes('ChunkLoadError'))) {
-              console.error('Chunk loading error caught by global handler:', event.message);
-              event.preventDefault();
-              return true;
-            }
-          });
-          
-          var originalJsonpFunction = window["webpackJsonp"];
-          if (originalJsonpFunction) {
-            window["webpackJsonp"] = function() {
-              try {
-                return originalJsonpFunction.apply(null, arguments);
-              } catch (e) {
-                console.error("Chunk jsonp error caught:", e);
-                return [];
-              }
-            };
-          }
-        })();
-        `,
-        raw: true,
-        entryOnly: true
-      })
+      // Add ProvidePlugin to automatically load modules that Spline might need
+      new webpack.ProvidePlugin({
+        process: 'process',
+        Buffer: ['buffer', 'Buffer'],
+      }),
     ],
     devtool: isDevelopment ? 'inline-source-map' : false
   };

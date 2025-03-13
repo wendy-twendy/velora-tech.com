@@ -22,7 +22,6 @@ const translationCache: Record<LanguageCode, TranslationData> = {} as Record<Lan
 async function loadTranslations(language: LanguageCode): Promise<TranslationData> {
   // Return from cache if already loaded
   if (translationCache[language]) {
-    console.log(`Using cached translations for ${language}`);
     return translationCache[language];
   }
   

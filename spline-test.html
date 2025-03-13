@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spline Test Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #fff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .spline-container {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #333;
+            position: relative;
+        }
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #FFF;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes rotation {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        .controls {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #2a2a2a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3a3a3a;
+        }
+        .status {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #1a1a1a;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Spline Scene Test</h1>
+        
+        <div id="spline-container" class="spline-container">
+            <span class="loader"></span>
+        </div>
+        
+        <div class="controls">
+            <button id="load-spline">Load Spline Scene</button>
+            <button id="check-status">Check Status</button>
+        </div>
+        
+        <div id="status" class="status">
+            Status: Ready to load Spline scene
+        </div>
+    </div>
+
+    <script type="module">
+        import { Application } from 'https://unpkg.com/@splinetool/runtime@0.9.493/build/runtime.js';
+        
+        const statusEl = document.getElementById('status');
+        const containerEl = document.getElementById('spline-container');
+        const loadBtn = document.getElementById('load-spline');
+        const checkBtn = document.getElementById('check-status');
+        
+        let app = null;
+        
+        // Update status with timestamp
+        function updateStatus(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            statusEl.innerHTML = `${timestamp}: ${message}`;
+        }
+        
+        // Load the Spline scene
+        async function loadSplineScene() {
+            updateStatus('Loading Spline scene...');
+            
+            try {
+                // Clear previous content
+                containerEl.innerHTML = '<span class="loader"></span>';
+                
+                // Create a new Spline Application
+                app = new Application(containerEl);
+                
+                // Load the scene
+                await app.load('https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode');
+                
+                updateStatus('Spline scene loaded successfully!');
+            } catch (error) {
+                console.error('Error loading Spline scene:', error);
+                updateStatus(`Error: ${error.message || 'Failed to load Spline scene'}`);
+                containerEl.innerHTML = `<div style="color: red; padding: 20px; text-align: center;">
+                    Error loading Spline scene: ${error.message || 'Unknown error'}
+                </div>`;
+            }
+        }
+        
+        // Check the status of the Spline scene
+        function checkSplineStatus() {
+            if (!app) {
+                updateStatus('Spline scene not loaded yet');
+                return;
+            }
+            
+            try {
+                const status = app.isLoaded ? 'Loaded' : 'Loading';
+                updateStatus(`Spline scene status: ${status}`);
+            } catch (error) {
+                updateStatus(`Error checking status: ${error.message}`);
+            }
+        }
+        
+        // Add event listeners
+        loadBtn.addEventListener('click', loadSplineScene);
+        checkBtn.addEventListener('click', checkSplineStatus);
+        
+        // Initial status
+        updateStatus('Ready to load Spline scene. Click "Load Spline Scene" to begin.');
+    </script>
+</body>
+</html>

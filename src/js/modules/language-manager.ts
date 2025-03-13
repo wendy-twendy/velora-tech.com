@@ -94,7 +94,6 @@ function setLanguage(languageCode: LanguageCode): void {
 function getCurrentLanguage(): LanguageCode {
     const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
     const currentLang = (storedLanguage || DEFAULT_LANGUAGE) as LanguageCode;
-    console.log(`Current language is: ${currentLang}`);
     return currentLang;
 }
 

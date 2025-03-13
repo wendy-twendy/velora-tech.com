@@ -13,6 +13,11 @@ import { initContactForm } from './modules/contact';
 import { initLanguageSystem, getCurrentLanguage } from './modules/language-manager';
 import { loadComponents } from './modules/component-loader';
 import { initTranslationSystem, translatePage } from './modules/translation-service';
+import { ReactComponentBridge } from './modules/react-component-bridge';
+import { DebugPanel } from './modules/debug-panel';
+
+// Import CSS for Tailwind
+import '../../css/tailwind.css';
 
 /**
  * Initialize all website functionality
@@ -21,6 +26,11 @@ async function initWebsite(): Promise<void> {
     console.log('Initializing website...');
     
     try {
+        // Initialize debug panel in development mode
+        if (process.env.NODE_ENV === 'development') {
+            DebugPanel.init();
+        }
+        
         // Initialize language manager first to detect and set the correct language
         const detectedLanguage = await initLanguageSystem();
         console.log(`Website initialized with language: ${detectedLanguage}`);
@@ -40,6 +50,8 @@ async function initWebsite(): Promise<void> {
         initTestimonialSlider();
         initContactForm();
         
+        // Initialize React components
+        ReactComponentBridge.init();
         
         // Dispatch event that all components are loaded and initialized
         document.dispatchEvent(new CustomEvent('components:all-loaded'));
@@ -82,6 +94,9 @@ document.addEventListener('language:changed', async (event) => {
         
         // Then reload components that need complete reloading
         await loadComponents();
+        
+        // Reinitialize React components
+        ReactComponentBridge.init();
         
         // Reinitialize any modules that need to be updated after language change
         initCounters();
