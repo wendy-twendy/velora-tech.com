@@ -37,8 +37,8 @@ jobs:
           # Copy the main HTML file
           cp index.html dist-deploy/
           
-          # Copy JavaScript bundle
-          cp bundle.js dist-deploy/
+          # Copy JavaScript bundle from dist directory
+          cp dist/bundle.js dist-deploy/
           
           # Copy CSS directories if they exist
           if [ -d "css" ]; then
@@ -60,7 +60,7 @@ jobs:
           
           # Copy .nojekyll file to prevent GitHub Pages from processing with Jekyll
           touch dist-deploy/.nojekyll
-
+          
       - name: List deployment directory contents
         run: |
           echo "Root directory:"
