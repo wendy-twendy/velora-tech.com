@@ -33,7 +33,7 @@ function initWebsite(): void {
         initContactForm();
         
         // Initialize the Spline 3D scene in the hero section
-        initSplineScene('spline-container', 'https://prod.spline.design/6HYSzjF6o5jFsTZY/scene.splinecode');
+        initSplineScene('spline-container', 'https://prod.spline.design/cj6GSivfEQ9lqQqm/scene.splinecode');
         
         // Dispatch event that all components are loaded and initialized
         document.dispatchEvent(new CustomEvent('components:all-loaded'));

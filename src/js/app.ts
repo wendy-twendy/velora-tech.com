@@ -12,7 +12,6 @@ import { initTestimonialSlider } from './modules/testimonials';
 import { initContactForm } from './modules/contact';
 import { loadComponents } from './modules/component-loader';
 import { initLanguageSystem } from './modules/language-manager';
-import { initSplineScene } from './modules/spline-scene';
 
 // Check if we're in development mode
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -39,8 +38,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     initTestimonialSlider();
     initContactForm();
     
-    // Initialize the Spline 3D scene in the hero section
-    initSplineScene('spline-container', 'https://prod.spline.design/6HYSzjF6o5jFsTZY/scene.splinecode');
+    // Dispatch event that all components are loaded and initialized
+    document.dispatchEvent(new CustomEvent('components:all-loaded'));
+    
+    // Lazy load and initialize the Spline viewer only when needed
+    const splineContainer = document.getElementById('spline-canvas-container');
+    if (splineContainer) {
+        // Show loading indicator immediately
+        const loadingElement = document.querySelector('.spline-loading') as HTMLElement;
+        if (loadingElement) {
+            loadingElement.style.display = 'flex';
+            loadingElement.classList.add('visible');
+        }
+        
+        // Lazy load the Spline viewer module
+        import(/* webpackChunkName: "spline-module" */ './modules/spline-viewer')
+            .then(module => {
+                // Initialize the Spline viewer
+                module.initSplineViewer();
+            })
+            .catch(err => {
+                console.error('Failed to load Spline viewer module:', err);
+                // Hide loading indicator on error
+                if (loadingElement) {
+                    loadingElement.style.display = 'none';
+                    loadingElement.classList.remove('visible');
+                }
+                // Show error message
+                const errorElement = document.querySelector('.spline-error') as HTMLElement;
+                if (errorElement) {
+                    errorElement.style.display = 'flex';
+                }
+            });
+    }
     
     // Run tests in development mode
     if (isDevelopment) {
